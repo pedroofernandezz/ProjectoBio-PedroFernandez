@@ -14,85 +14,220 @@
 body {
     margin: 0;
     min-height: 100vh;
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    padding: 24px;
 
     font-family: Arial, sans-serif;
-
-    background-color: #f4f4f4;
+    background-color: #f7faff;
+    color: #16324f;
 }
 
 .contenedor {
     width: 100%;
-    max-width: 420px;
+    max-width: 980px;
+    margin: 0 auto;
 
-    margin: 20px;
+    background-color: #ffffff;
+    border: 1px solid #d7e5f3;
+    box-shadow: 0 6px 20px rgba(47, 116, 192, 0.2);
+}
 
-    background-color: white;
-    border: 1px solid #cccccc;
+.cabecera {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+
+    padding: 22px 28px;
+
+    border-bottom: 2px solid #dbe9f7;
+}
+
+.icono-cabecera {
+    width: 34px;
+    height: 34px;
+    object-fit: contain;
+    flex-shrink: 0;
 }
 
 h1 {
     margin: 0;
-    padding: 20px;
 
-    text-align: center;
-    font-size: 24px;
+    font-size: 28px;
+    font-weight: 500;
+    letter-spacing: 1px;
 
-    border-bottom: 1px solid #cccccc;
+    color: #16324f;
 }
 
 .medicion {
-    padding: 32px 24px;
-
-    text-align: center;
+    padding: 40px 28px 34px;
 }
 
-.medicion h2 {
-    margin-top: 0;
-    margin-bottom: 24px;
+.etiqueta-valor {
+    margin: 0 0 18px;
 
-    font-size: 20px;
-    font-weight: normal;
+    text-align: center;
+
+    font-size: 30px;
+    font-weight: 600;
+    letter-spacing: 1px;
+
+    color: #2f74c0;
+}
+
+.fila-valor {
+    display: flex;
+    justify-content: center;
+    align-items: baseline;
+    gap: 14px;
+
+    margin-bottom: 46px;
 }
 
 .valor-medicion {
-    font-size: 56px;
-    font-weight: bold;
+    font-size: 64px;
+    font-weight: 500;
     line-height: 1;
+
+    color: #111111;
 }
 
 .unidad {
-    margin-top: 8px;
+    font-size: 34px;
+    line-height: 1;
 
-    font-size: 20px;
+    color: #2f74c0;
+}
+
+.fila-fecha {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+
+    margin-bottom: 34px;
+}
+
+.zona-etiqueta-fecha {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex: 1;
+
+    min-width: 0;
+}
+
+.icono-fecha {
+    width: 26px;
+    height: 26px;
+    object-fit: contain;
+    flex-shrink: 0;
+}
+
+.texto-fecha {
+    font-size: 24px;
+    white-space: nowrap;
+}
+
+.linea-fecha {
+    flex: 1;
+    min-width: 40px;
+
+    border-top: 2px dashed #b7cee6;
 }
 
 .fecha-medicion {
-    margin-top: 24px;
-
-    font-size: 16px;
+    font-size: 34px;
+    white-space: nowrap;
 }
 
 .mensaje-estado {
     min-height: 24px;
+    margin: 0 0 20px;
 
-    margin-top: 20px;
-    margin-bottom: 12px;
+    text-align: center;
+    font-size: 15px;
 
-    font-size: 14px;
+    color: #2f74c0;
 }
 
 button {
-    padding: 12px 20px;
+    width: 100%;
+    padding: 16px 20px;
 
-    font-size: 16px;
+    border: 2px solid #2f74c0;
+    border-radius: 10px;
+
+    background-color: #ffffff;
+    color: #2f74c0;
+
+    font-size: 30px;
+    font-weight: 600;
+    letter-spacing: 6px;
 
     cursor: pointer;
 }
 
+button:hover:enabled {
+    background-color: #2f74c0;
+    color: #ffffff;
+}
+
 button:disabled {
     cursor: default;
+    opacity: 0.7;
+}
+
+@media (max-width: 700px) {
+
+    body {
+        padding: 12px;
+    }
+
+    .cabecera {
+        padding: 18px;
+    }
+
+    .icono-cabecera {
+        width: 30px;
+        height: 30px;
+    }
+
+    h1 {
+        font-size: 22px;
+    }
+
+    .medicion {
+        padding: 30px 18px 24px;
+    }
+
+    .etiqueta-valor {
+        font-size: 22px;
+    }
+
+    .valor-medicion {
+        font-size: 48px;
+    }
+
+    .unidad {
+        font-size: 26px;
+    }
+
+    .fila-fecha {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
+    }
+
+    .texto-fecha {
+        font-size: 20px;
+    }
+
+    .fecha-medicion {
+        font-size: 24px;
+        text-align: right;
+    }
+
+    button {
+        font-size: 22px;
+        letter-spacing: 4px;
+    }
 }

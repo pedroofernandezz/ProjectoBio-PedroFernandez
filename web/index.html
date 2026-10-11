@@ -30,35 +30,69 @@
 
     <main class="contenedor">
 
-        <h1>
-            MEDICIÓN DE OZONO
-        </h1>
+        <header class="cabecera">
+
+            <img
+                src="./img/icono-medicion.svg"
+                alt=""
+                class="icono-cabecera"
+            >
+
+            <h1>
+                MEDICIÓN OZONO
+            </h1>
+
+        </header>
 
         <section
             class="medicion"
             aria-live="polite"
         >
 
-            <h2>
-                Última medición
-            </h2>
-
-            <div
-                id="valor-medicion"
-                class="valor-medicion"
-            >
-                --
+            <div class="etiqueta-valor">
+                VALOR
             </div>
 
-            <div class="unidad">
-                ppm
+            <div class="fila-valor">
+
+                <span
+                    id="valor-medicion"
+                    class="valor-medicion"
+                >
+                    --
+                </span>
+
+                <span class="unidad">
+                    ppm
+                </span>
+
             </div>
 
-            <div
-                id="fecha-medicion"
-                class="fecha-medicion"
-            >
-                --
+            <div class="fila-fecha">
+
+                <div class="zona-etiqueta-fecha">
+
+                    <img
+                        src="./img/icono-fecha.svg"
+                        alt=""
+                        class="icono-fecha"
+                    >
+
+                    <span class="texto-fecha">
+                        Fecha y hora
+                    </span>
+
+                    <div class="linea-fecha"></div>
+
+                </div>
+
+                <div
+                    id="fecha-medicion"
+                    class="fecha-medicion"
+                >
+                    --
+                </div>
+
             </div>
 
             <p
@@ -70,7 +104,7 @@
                 id="boton-actualizar"
                 type="button"
             >
-                Actualizar medición
+                ACTUALIZAR
             </button>
 
         </section>
