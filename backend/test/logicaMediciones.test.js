@@ -1,3 +1,12 @@
+/*
+ * Nombre: logicaMediciones.test.js
+ * Descripción: Tests automáticos de la lógica real del negocio del Sprint 0.
+ * Copyright: (c) 2026 Pedro Fernández
+ * Fecha: 11/10/2026
+ * Autor: Pedro Fernández
+ * Aportación: Verificación reproducible de validaciones y operaciones de negocio.
+ */
+
 const assert = require("assert");
 const BaseDatos = require("../bd/BaseDatos");
 const LogicaMediciones = require("../logica/LogicaMediciones");

@@ -1,3 +1,12 @@
+/*
+ * Nombre: rest.test.js
+ * Descripción: Tests automáticos de integración del API REST del Sprint 0.
+ * Copyright: (c) 2026 Pedro Fernández
+ * Fecha: 11/10/2026
+ * Autor: Pedro Fernández
+ * Aportación: Verificación reproducible de las rutas HTTP y sus respuestas.
+ */
+
 const assert = require("assert");
 const request = require("supertest");
 

@@ -1,7 +1,10 @@
 /*
- * crearApp.js
- * Construcción de la aplicación Express del Sprint 0.
+ * Nombre: crearApp.js
+ * Descripción: Construcción de la aplicación Express del Sprint 0.
+ * Copyright: (c) 2026 Pedro Fernández
+ * Fecha: 11/10/2026
  * Autor: Pedro Fernández
+ * Aportación: Configuración de middleware y carga de las reglas REST.
  */
 
 const express = require("express");

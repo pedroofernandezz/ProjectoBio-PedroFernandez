@@ -1,3 +1,12 @@
+/*
+ * Nombre: baseDatos.test.js
+ * Descripción: Tests automáticos de la capa de persistencia del Sprint 0.
+ * Copyright: (c) 2026 Pedro Fernández
+ * Fecha: 11/10/2026
+ * Autor: Pedro Fernández
+ * Aportación: Verificación reproducible de inserción y consulta de mediciones.
+ */
+
 const assert = require("assert");
 const BaseDatos = require("../bd/BaseDatos");
 

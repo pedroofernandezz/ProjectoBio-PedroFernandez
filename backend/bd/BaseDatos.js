@@ -1,7 +1,10 @@
 /*
- * BaseDatos.js
- * Persistencia SQLite para las mediciones del Sprint 0.
+ * Nombre: BaseDatos.js
+ * Descripción: Persistencia SQLite para las mediciones del Sprint 0.
+ * Copyright: (c) 2026 Pedro Fernández
+ * Fecha: 11/10/2026
  * Autor: Pedro Fernández
+ * Aportación: Implementación de la capa de acceso a datos y consultas de mediciones.
  */
 
 const fs = require("fs");

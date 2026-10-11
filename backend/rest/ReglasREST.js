@@ -1,7 +1,10 @@
 /*
- * ReglasREST.js
- * Adaptación HTTP/JSON de la lógica de negocio del Sprint 0.
+ * Nombre: ReglasREST.js
+ * Descripción: Adaptación HTTP/JSON de la lógica de negocio del Sprint 0.
+ * Copyright: (c) 2026 Pedro Fernández
+ * Fecha: 11/10/2026
  * Autor: Pedro Fernández
+ * Aportación: Implementación de las rutas POST y GET definidas en el diseño REST.
  */
 
 /*

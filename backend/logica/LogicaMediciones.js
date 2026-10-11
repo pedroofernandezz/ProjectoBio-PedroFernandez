@@ -1,7 +1,10 @@
 /*
- * LogicaMediciones.js
- * Lógica real del negocio para las mediciones del Sprint 0.
+ * Nombre: LogicaMediciones.js
+ * Descripción: Lógica real del negocio para las mediciones del Sprint 0.
+ * Copyright: (c) 2026 Pedro Fernández
+ * Fecha: 11/10/2026
  * Autor: Pedro Fernández
+ * Aportación: Validación, registro y consulta de la última medición.
  */
 
 class LogicaMediciones {

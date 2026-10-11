@@ -1,7 +1,10 @@
 /*
- * mainServidorREST.js
- * Arranque del servidor REST del Sprint 0.
+ * Nombre: mainServidorREST.js
+ * Descripción: Arranque del servidor REST del Sprint 0.
+ * Copyright: (c) 2026 Pedro Fernández
+ * Fecha: 11/10/2026
  * Autor: Pedro Fernández
+ * Aportación: Inicialización de base de datos, lógica de negocio y servidor HTTP.
  */
 
 const path = require("path");
