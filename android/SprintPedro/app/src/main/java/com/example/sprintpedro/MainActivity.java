@@ -23,6 +23,14 @@ import androidx.core.content.ContextCompat;
 import java.util.List;
 import java.util.UUID;
 
+import android.os.Build;
+
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+import java.util.TimeZone;
+
 // ------------------------------------------------------------------
 // ------------------------------------------------------------------
 
@@ -33,6 +41,16 @@ public class MainActivity extends AppCompatActivity {
     private static final String ETIQUETA_LOG = ">>>>";
 
     private static final int CODIGO_PETICION_PERMISOS = 11223344;
+
+    private static final String URL_SERVIDOR =
+            "http://192.168.18.189:8080";
+
+    private final DecodificadorOzono decodificadorOzono =
+            new DecodificadorOzono();
+
+    private LogicaFakeAndroid logicaFakeAndroid;
+
+    private Integer ultimoContadorProcesado = null;
 
     // --------------------------------------------------------------
     // --------------------------------------------------------------
@@ -83,12 +101,27 @@ public class MainActivity extends AppCompatActivity {
 
         BluetoothDevice bluetoothDevice = resultado.getDevice();
         byte[] bytes = resultado.getScanRecord().getBytes();
+        if (bytes == null || bytes.length < 30) {
+            return;
+        }
         int rssi = resultado.getRssi();
 
         Log.d(ETIQUETA_LOG, " ****************************************************");
         Log.d(ETIQUETA_LOG, " ****** DISPOSITIVO DETECTADO BTLE ****************** ");
         Log.d(ETIQUETA_LOG, " ****************************************************");
-        Log.d(ETIQUETA_LOG, " nombre = " + bluetoothDevice.getName());
+        if (
+                Build.VERSION.SDK_INT < Build.VERSION_CODES.S
+                        ||
+                        ActivityCompat.checkSelfPermission(
+                                this,
+                                Manifest.permission.BLUETOOTH_CONNECT
+                        ) == PackageManager.PERMISSION_GRANTED
+        ) {
+            Log.d(
+                    ETIQUETA_LOG,
+                    " nombre = " + bluetoothDevice.getName()
+            );
+        }
         Log.d(ETIQUETA_LOG, " toString = " + bluetoothDevice.toString());
 
         /*
@@ -123,7 +156,110 @@ public class MainActivity extends AppCompatActivity {
         Log.d(ETIQUETA_LOG, " txPower  = " + Integer.toHexString(tib.getTxPower()) + " ( " + tib.getTxPower() + " )");
         Log.d(ETIQUETA_LOG, " ****************************************************");
 
+        procesarTramaOzono(tib);
+
     } // ()
+
+    /*
+     * trama: TramaIBeacon --> procesarTramaOzono()
+     * Decodifica una medición de ozono válida y la envía una sola vez al servidor.
+     */
+    private void procesarTramaOzono(TramaIBeacon trama) {
+
+        if (!decodificadorOzono.esTramaOzono(trama)) {
+            return;
+        }
+
+        int contador =
+                decodificadorOzono.obtenerContador(trama);
+
+        synchronized (this) {
+
+            if (
+                    ultimoContadorProcesado != null
+                            && ultimoContadorProcesado == contador
+            ) {
+                return;
+            }
+
+            ultimoContadorProcesado = contador;
+        }
+
+        double valor =
+                decodificadorOzono.obtenerValorPpm(trama);
+
+        String fecha =
+                obtenerFechaUtc();
+
+        Log.d(
+                ETIQUETA_LOG,
+                "Ozono recibido: "
+                        + valor
+                        + " ppm, contador="
+                        + contador
+        );
+
+        new Thread(() -> {
+
+            try {
+
+                Medicion medicion =
+                        logicaFakeAndroid.registrarMedicion(
+                                "ozono",
+                                fecha,
+                                valor
+                        );
+
+                Log.d(
+                        ETIQUETA_LOG,
+                        "Medición enviada al servidor. id="
+                                + medicion.getId()
+                                + " valor="
+                                + medicion.getValor()
+                );
+
+            } catch (IOException error) {
+
+                synchronized (MainActivity.this) {
+
+                    if (
+                            ultimoContadorProcesado != null
+                                    && ultimoContadorProcesado == contador
+                    ) {
+                        ultimoContadorProcesado = null;
+                    }
+                }
+
+                Log.e(
+                        ETIQUETA_LOG,
+                        "Error enviando medición al servidor",
+                        error
+                );
+            }
+
+        }).start();
+    }
+
+    /*
+     * --> obtenerFechaUtc() --> fecha: Text
+     * Obtiene la fecha y hora actual en UTC con formato ISO compatible con el backend.
+     */
+    private String obtenerFechaUtc() {
+
+        SimpleDateFormat formato =
+                new SimpleDateFormat(
+                        "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'",
+                        Locale.US
+                );
+
+        formato.setTimeZone(
+                TimeZone.getTimeZone("UTC")
+        );
+
+        return formato.format(
+                new Date()
+        );
+    }
 
     // --------------------------------------------------------------
     // --------------------------------------------------------------
@@ -176,7 +312,18 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
 
-        this.elEscanner.stopScan( this.callbackDelEscaneo );
+        if (
+                Build.VERSION.SDK_INT < Build.VERSION_CODES.S
+                        ||
+                        ActivityCompat.checkSelfPermission(
+                                this,
+                                Manifest.permission.BLUETOOTH_SCAN
+                        ) == PackageManager.PERMISSION_GRANTED
+        ) {
+            this.elEscanner.stopScan(
+                    this.callbackDelEscaneo
+            );
+        }
         this.callbackDelEscaneo = null;
 
     } // ()
@@ -214,8 +361,6 @@ public class MainActivity extends AppCompatActivity {
         BluetoothAdapter bta = BluetoothAdapter.getDefaultAdapter();
 
         Log.d(ETIQUETA_LOG, " inicializarBlueTooth(): habilitamos adaptador BT ");
-
-        bta.enable();
 
         Log.d(ETIQUETA_LOG, " inicializarBlueTooth(): habilitado =  " + bta.isEnabled() );
 
@@ -256,6 +401,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        logicaFakeAndroid =
+                new LogicaFakeAndroid(URL_SERVIDOR);
 
         Log.d(ETIQUETA_LOG, " onCreate(): empieza ");
 
