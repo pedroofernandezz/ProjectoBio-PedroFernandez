@@ -331,19 +331,27 @@ El código Android puede obtener así los valores enteros de `major` y `minor`.
 
 Responsabilidad del código proporcionado: solicitar permisos, obtener el escáner BLE, iniciar/detener el escaneo y entregar cada anuncio detectado al código que analiza la trama.
 
-Arquitectura observada:
+Para la adaptación de Sprint 0, `MainActivity` conserva esas responsabilidades y coordina el envío de una medición de ozono válida hacia la lógica fake. El contador de 8 bits se utiliza únicamente para no procesar varias veces anuncios consecutivos de una misma emisión; no se considera un identificador global.
+
+Diseño utilizado en Sprint 0:
 
 ```text
 ---------------- MainActivity ----------------
 |
 | escaner_ble
 | callback_escaneo
+| decodificador_ozono: DecodificadorOzono
+| logica_fake: LogicaFakeAndroid
+| ultimo_contador_procesado: Z
 |
 |
 buscarTodosLosDispositivosBTLE() -->
 |
 |
 resultado_ble --> mostrarInformacionDispositivoBTLE() -->
+|
+|
+trama: TramaIBeacon --> procesarTramaOzono() -->
 |
 |
 dispositivo: Text --> buscarEsteDispositivoBTLE() -->
@@ -356,6 +364,21 @@ inicializarBlueTooth() -->
 |
 ------------------------------------------------
 ```
+
+`procesarTramaOzono()` realiza únicamente la coordinación del cliente:
+
+```text
+TramaIBeacon
+    |
+    +--> comprobar UUID e id 14
+    +--> obtener contador
+    +--> ignorar repetición consecutiva del mismo contador
+    +--> obtener valor ppm
+    +--> obtener fecha/hora UTC
+    +--> LogicaFakeAndroid.registrarMedicion()
+```
+
+La petición HTTP se ejecuta fuera del hilo de interfaz de Android. Esta decisión es un detalle de implementación y no modifica el contrato lógico de la lógica fake.
 
 Flujo del código base:
 
