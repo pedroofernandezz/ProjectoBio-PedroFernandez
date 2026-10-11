@@ -1,0 +1,12 @@
+# Node
+node_modules/
+
+# Bases de datos generadas en ejecución
+*.db
+*.sqlite
+*.sqlite3
+
+# Metadatos del sistema
+.DS_Store
+._*
+Thumbs.db
