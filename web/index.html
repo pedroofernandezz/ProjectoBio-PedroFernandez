@@ -1,0 +1,87 @@
+<!--
+    Nombre: index.html
+    Descripción: Interfaz principal para mostrar la última medición de ozono.
+    Copyright: (c) 2026 Pedro Fernández
+    Fecha: 11/10/2026
+    Autor: Pedro Fernández
+    Aportación: Estructura de la interfaz web del Sprint 0.
+-->
+
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Medición de ozono</title>
+
+    <link
+        rel="stylesheet"
+        href="./styles.css"
+    >
+</head>
+
+<body>
+
+    <main class="contenedor">
+
+        <h1>
+            MEDICIÓN DE OZONO
+        </h1>
+
+        <section
+            class="medicion"
+            aria-live="polite"
+        >
+
+            <h2>
+                Última medición
+            </h2>
+
+            <div
+                id="valor-medicion"
+                class="valor-medicion"
+            >
+                --
+            </div>
+
+            <div class="unidad">
+                ppm
+            </div>
+
+            <div
+                id="fecha-medicion"
+                class="fecha-medicion"
+            >
+                --
+            </div>
+
+            <p
+                id="mensaje-estado"
+                class="mensaje-estado"
+            ></p>
+
+            <button
+                id="boton-actualizar"
+                type="button"
+            >
+                Actualizar medición
+            </button>
+
+        </section>
+
+    </main>
+
+    <script
+        type="module"
+        src="./app.js"
+    ></script>
+
+</body>
+
+</html>
