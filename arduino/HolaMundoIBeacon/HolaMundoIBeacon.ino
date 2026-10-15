@@ -142,8 +142,7 @@ void loop() {
     // Calcular concentracion de ozono
     // -----------------------------------------
 
-    float valorOzono =
-    elMedidor.medirOzono(vgas, vref);
+    float valorOzono = 12.34f;
 
     if (isnan(valorOzono) || isinf(valorOzono)) {
     Serial.println("ERROR: medicion no valida.");

@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
     private static final int CODIGO_PETICION_PERMISOS = 11223344;
 
     private static final String URL_SERVIDOR =
-            "http://192.168.18.189:8080";
+            "http://172.20.10.2:8080";
 
     private final DecodificadorOzono decodificadorOzono =
             new DecodificadorOzono();
@@ -407,6 +407,11 @@ public class MainActivity extends AppCompatActivity {
                     ActivityCompat.checkSelfPermission(
                             this,
                             Manifest.permission.BLUETOOTH_CONNECT
+                    ) == PackageManager.PERMISSION_GRANTED
+                    &&
+                    ActivityCompat.checkSelfPermission(
+                            this,
+                            Manifest.permission.ACCESS_FINE_LOCATION
                     ) == PackageManager.PERMISSION_GRANTED;
         }
 
@@ -428,7 +433,8 @@ public class MainActivity extends AppCompatActivity {
                     this,
                     new String[]{
                             Manifest.permission.BLUETOOTH_SCAN,
-                            Manifest.permission.BLUETOOTH_CONNECT
+                            Manifest.permission.BLUETOOTH_CONNECT,
+                            Manifest.permission.ACCESS_FINE_LOCATION
                     },
                     CODIGO_PETICION_PERMISOS
             );
