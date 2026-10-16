@@ -1,5 +1,15 @@
 
 package com.example.sprintpedro;
+
+/*
+ * Nombre: MainActivity.java
+ * Descripción: Actividad Android que escanea BLE, decodifica la trama de ozono y envía la medición al backend.
+ * Copyright: código base docente; adaptación (c) 2026 Pedro Fernández
+ * Fecha: 16/10/2026
+ * Autor: código base proporcionado por la asignatura; Pedro Fernández (adaptación)
+ * Aportación: permisos BLE/ubicación, decodificación de ozono, deduplicación y envío mediante LogicaFakeAndroid.
+ */
+
 // ------------------------------------------------------------------
 // ------------------------------------------------------------------
 
@@ -60,6 +70,10 @@ public class MainActivity extends AppCompatActivity {
 
     // --------------------------------------------------------------
     // --------------------------------------------------------------
+    /*
+     * buscarTodosLosDispositivosBTLE()
+     * Inicia un escaneo BLE general e instala el callback que procesa los anuncios recibidos.
+     */
     private void buscarTodosLosDispositivosBTLE() {
         Log.d(ETIQUETA_LOG, " buscarTodosLosDispositivosBTL(): empieza ");
 
@@ -67,6 +81,10 @@ public class MainActivity extends AppCompatActivity {
 
         this.callbackDelEscaneo = new ScanCallback() {
             @Override
+            /* callback_type: Z, resultado: ScanResult --> onScanResult()
+             * Procesa un resultado individual entregado por el escáner BLE.
+             */
+
             public void onScanResult( int callbackType, ScanResult resultado ) {
                 super.onScanResult(callbackType, resultado);
                 Log.d(ETIQUETA_LOG, " buscarTodosLosDispositivosBTL(): onScanResult() ");
@@ -75,6 +93,10 @@ public class MainActivity extends AppCompatActivity {
             }
 
             @Override
+            /* resultados: [ScanResult] --> onBatchScanResults()
+             * Atiende un lote de resultados BLE recibido por el callback.
+             */
+
             public void onBatchScanResults(List<ScanResult> results) {
                 super.onBatchScanResults(results);
                 Log.d(ETIQUETA_LOG, " buscarTodosLosDispositivosBTL(): onBatchScanResults() ");
@@ -82,6 +104,10 @@ public class MainActivity extends AppCompatActivity {
             }
 
             @Override
+            /* codigo_error: Z --> onScanFailed()
+             * Registra el fallo notificado por el escáner BLE.
+             */
+
             public void onScanFailed(int errorCode) {
                 super.onScanFailed(errorCode);
                 Log.d(ETIQUETA_LOG, " buscarTodosLosDispositivosBTL(): onScanFailed() ");
@@ -112,6 +138,10 @@ public class MainActivity extends AppCompatActivity {
 
     // --------------------------------------------------------------
     // --------------------------------------------------------------
+    /*
+     * resultado: ScanResult --> mostrarInformacionDispositivoBTLE()
+     * Extrae y muestra la trama BLE recibida y delega el posible procesamiento de ozono.
+     */
     private void mostrarInformacionDispositivoBTLE( ScanResult resultado ) {
 
         BluetoothDevice bluetoothDevice = resultado.getDevice();
@@ -286,6 +316,10 @@ public class MainActivity extends AppCompatActivity {
 
     // --------------------------------------------------------------
     // --------------------------------------------------------------
+    /*
+     * dispositivo_buscado: Text --> buscarEsteDispositivoBTLE()
+     * Prepara el escaneo asociado a un nombre de dispositivo usando el mecanismo del código base.
+     */
     private void buscarEsteDispositivoBTLE(final String dispositivoBuscado ) {
         Log.d(ETIQUETA_LOG, " buscarEsteDispositivoBTLE(): empieza ");
 
@@ -296,6 +330,10 @@ public class MainActivity extends AppCompatActivity {
 
         this.callbackDelEscaneo = new ScanCallback() {
             @Override
+            /* callback_type: Z, resultado: ScanResult --> onScanResult()
+             * Procesa un resultado individual entregado por el escáner BLE.
+             */
+
             public void onScanResult( int callbackType, ScanResult resultado ) {
                 super.onScanResult(callbackType, resultado);
                 Log.d(ETIQUETA_LOG, "  buscarEsteDispositivoBTLE(): onScanResult() ");
@@ -304,6 +342,10 @@ public class MainActivity extends AppCompatActivity {
             }
 
             @Override
+            /* resultados: [ScanResult] --> onBatchScanResults()
+             * Atiende un lote de resultados BLE recibido por el callback.
+             */
+
             public void onBatchScanResults(List<ScanResult> results) {
                 super.onBatchScanResults(results);
                 Log.d(ETIQUETA_LOG, "  buscarEsteDispositivoBTLE(): onBatchScanResults() ");
@@ -311,6 +353,10 @@ public class MainActivity extends AppCompatActivity {
             }
 
             @Override
+            /* codigo_error: Z --> onScanFailed()
+             * Registra el fallo notificado por el escáner BLE.
+             */
+
             public void onScanFailed(int errorCode) {
                 super.onScanFailed(errorCode);
                 Log.d(ETIQUETA_LOG, "  buscarEsteDispositivoBTLE(): onScanFailed() ");
@@ -344,6 +390,10 @@ public class MainActivity extends AppCompatActivity {
 
     // --------------------------------------------------------------
     // --------------------------------------------------------------
+    /*
+     * detenerBusquedaDispositivosBTLE()
+     * Detiene el escaneo BLE activo y libera su callback.
+     */
     private void detenerBusquedaDispositivosBTLE() {
 
         if ( this.callbackDelEscaneo == null ) {
@@ -368,6 +418,10 @@ public class MainActivity extends AppCompatActivity {
 
     // --------------------------------------------------------------
     // --------------------------------------------------------------
+    /*
+     * vista: View --> botonBuscarDispositivosBTLEPulsado()
+     * Atiende el botón de búsqueda general e inicia el escaneo BLE.
+     */
     public void botonBuscarDispositivosBTLEPulsado( View v ) {
         Log.d(ETIQUETA_LOG, " boton buscar dispositivos BTLE Pulsado" );
         this.buscarTodosLosDispositivosBTLE();
@@ -375,6 +429,10 @@ public class MainActivity extends AppCompatActivity {
 
     // --------------------------------------------------------------
     // --------------------------------------------------------------
+    /*
+     * vista: View --> botonBuscarNuestroDispositivoBTLEPulsado()
+     * Atiende el botón de búsqueda específica conservado del código base.
+     */
     public void botonBuscarNuestroDispositivoBTLEPulsado( View v ) {
         Log.d(ETIQUETA_LOG, " boton nuestro dispositivo BTLE Pulsado" );
         //this.buscarEsteDispositivoBTLE( Utilidades.stringToUUID( "EPSG-GTI-PROY-3A" ) );
@@ -386,6 +444,10 @@ public class MainActivity extends AppCompatActivity {
 
     // --------------------------------------------------------------
     // --------------------------------------------------------------
+    /*
+     * vista: View --> botonDetenerBusquedaDispositivosBTLEPulsado()
+     * Atiende el botón que detiene el escaneo BLE.
+     */
     public void botonDetenerBusquedaDispositivosBTLEPulsado( View v ) {
         Log.d(ETIQUETA_LOG, " boton detener busqueda dispositivos BTLE Pulsado" );
         this.detenerBusquedaDispositivosBTLE();
@@ -520,6 +582,10 @@ public class MainActivity extends AppCompatActivity {
     // --------------------------------------------------------------
     // --------------------------------------------------------------
     @Override
+    /*
+     * estado: Bundle --> onCreate()
+     * Inicializa la interfaz, la lógica fake Android y el escáner Bluetooth de la actividad.
+     */
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);

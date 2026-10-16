@@ -1,5 +1,14 @@
 // -*- mode: c++ -*-
 
+/*
+ * Nombre: Publicador.h
+ * Descripción: Codificación de mediciones en campos iBeacon y control de su publicación BLE.
+ * Copyright: código base docente; adaptación (c) 2026 Pedro Fernández
+ * Fecha: 2019 (código base); 16/10/2026 (adaptación Sprint 0)
+ * Autor: Jordi Bataller i Mascarell (código base); Pedro Fernández (adaptación)
+ * Aportación: Añadida la publicación de ozono con identificador 14 y codificación en milésimas de ppm.
+ */
+
 // --------------------------------------------------------------
 // Jordi Bataller i Mascarell
 // --------------------------------------------------------------
@@ -47,6 +56,10 @@ public:
 
   // ............................................................
   // ............................................................
+/*
+ * Publicador()
+ * Construye el publicador sin encender todavía la emisora BLE.
+ */
   Publicador( ) {
 	// ATENCION: no hacerlo aquí. (*this).laEmisora.encenderEmisora();
 	// Pondremos un método para llamarlo desde el setup() más tarde
@@ -54,12 +67,20 @@ public:
 
   // ............................................................
   // ............................................................
+/*
+ * encenderEmisora()
+ * Delega en EmisoraBLE la inicialización de la radio BLE.
+ */
   void encenderEmisora() {
 	(*this).laEmisora.encenderEmisora();
   } // ()
 
   // ............................................................
   // ............................................................
+/*
+ * valor: Z, contador: N, tiempo_espera: Z --> publicarCO2()
+ * Codifica y publica temporalmente una medición de CO2 en un iBeacon.
+ */
   void publicarCO2( int16_t valorCO2, uint8_t contador,
 					long tiempoEspera ) {
 
@@ -96,6 +117,10 @@ public:
 
   // ............................................................
   // ............................................................
+/*
+ * valor: Z, contador: N, tiempo_espera: Z --> publicarTemperatura()
+ * Codifica y publica temporalmente una medición de temperatura en un iBeacon.
+ */
   void publicarTemperatura( int16_t valorTemperatura,
 							uint8_t contador, long tiempoEspera ) {
 
@@ -110,6 +135,10 @@ public:
 	(*this).laEmisora.detenerAnuncio();
   } // ()
 
+/*
+ * valor_ozono: R, contador: N, tiempo_espera: Z --> publicarOzono() --> publicado: B
+ * Valida el rango, codifica el ozono en milésimas de ppm y publica el iBeacon correspondiente.
+ */
 	bool publicarOzono(float valorOzono, uint8_t contador, long tiempoEspera){
 		if(isnan(valorOzono)||isinf(valorOzono)){
 			return false;

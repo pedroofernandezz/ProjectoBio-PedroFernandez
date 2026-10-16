@@ -1,6 +1,15 @@
 
 package com.example.sprintpedro;
 
+/*
+ * Nombre: TramaIBeacon.java
+ * Descripción: Representación y separación de los campos de una trama iBeacon recibida por Android.
+ * Copyright: código base docente; adaptación (c) 2026 Pedro Fernández
+ * Fecha: 2019 (código base); 16/10/2026 (documentación Sprint 0)
+ * Autor: Jordi Bataller i Mascarell (código base); Pedro Fernández (documentación/adaptación)
+ * Aportación: reutilización de la trama base dentro de la cadena de recepción de ozono del Sprint 0.
+ */
+
 import java.util.Arrays;
 
 // -----------------------------------------------------------------------------------
@@ -23,72 +32,120 @@ public class TramaIBeacon {
 
     // -------------------------------------------------------------------------------
     // -------------------------------------------------------------------------------
+    /*
+     * getPrefijo() --> prefijo: [N]
+     * Devuelve el prefijo de la trama iBeacon.
+     */
     public byte[] getPrefijo() {
         return prefijo;
     }
 
     // -------------------------------------------------------------------------------
     // -------------------------------------------------------------------------------
+    /*
+     * getUUID() --> uuid: [N]_16
+     * Devuelve los 16 bytes del UUID del iBeacon.
+     */
     public byte[] getUUID() {
         return uuid;
     }
 
     // -------------------------------------------------------------------------------
     // -------------------------------------------------------------------------------
+    /*
+     * getMajor() --> major: [N]_2
+     * Devuelve los dos bytes del campo major.
+     */
     public byte[] getMajor() {
         return major;
     }
 
     // -------------------------------------------------------------------------------
     // -------------------------------------------------------------------------------
+    /*
+     * getMinor() --> minor: [N]_2
+     * Devuelve los dos bytes del campo minor.
+     */
     public byte[] getMinor() {
         return minor;
     }
 
     // -------------------------------------------------------------------------------
     // -------------------------------------------------------------------------------
+    /*
+     * getTxPower() --> tx_power: Z
+     * Devuelve la potencia de transmisión incluida en la trama.
+     */
     public byte getTxPower() {
         return txPower;
     }
 
     // -------------------------------------------------------------------------------
     // -------------------------------------------------------------------------------
+    /*
+     * getLosBytes() --> bytes: [N]
+     * Devuelve los bytes completos recibidos.
+     */
     public byte[] getLosBytes() {
         return losBytes;
     }
 
     // -------------------------------------------------------------------------------
     // -------------------------------------------------------------------------------
+    /*
+     * getAdvFlags() --> flags: [N]
+     * Devuelve los flags del anuncio BLE.
+     */
     public byte[] getAdvFlags() {
         return advFlags;
     }
 
     // -------------------------------------------------------------------------------
     // -------------------------------------------------------------------------------
+    /*
+     * getAdvHeader() --> cabecera: [N]
+     * Devuelve la cabecera del anuncio BLE.
+     */
     public byte[] getAdvHeader() {
         return advHeader;
     }
 
     // -------------------------------------------------------------------------------
     // -------------------------------------------------------------------------------
+    /*
+     * getCompanyID() --> company_id: [N]
+     * Devuelve el identificador de fabricante de la trama.
+     */
     public byte[] getCompanyID() {
         return companyID;
     }
 
     // -------------------------------------------------------------------------------
     // -------------------------------------------------------------------------------
+    /*
+     * getiBeaconType() --> tipo: N
+     * Devuelve el byte de tipo iBeacon.
+     */
     public byte getiBeaconType() {
         return iBeaconType;
     }
 
     // -------------------------------------------------------------------------------
     // -------------------------------------------------------------------------------
+    /*
+     * getiBeaconLength() --> longitud: N
+     * Devuelve el byte de longitud iBeacon.
+     */
     public byte getiBeaconLength() {
         return iBeaconLength;
     }
 
     // -------------------------------------------------------------------------------
     // -------------------------------------------------------------------------------
+    /*
+     * bytes: [N] --> TramaIBeacon()
+     * Separa la trama recibida en prefijo, UUID, major, minor y potencia.
+     */
     public TramaIBeacon(byte[] bytes ) {
         this.losBytes = bytes;
 

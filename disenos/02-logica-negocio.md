@@ -22,7 +22,7 @@ Según la notación de la asignatura:
 ```text
 ---------------- LogicaMediciones ----------------
 |
-| repositorio: RepositorioMediciones
+| base_datos: BaseDatos
 |
 |
 tipo: Text, fecha: Text, valor: R --> registrarMedicion() -->

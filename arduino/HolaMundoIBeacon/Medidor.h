@@ -1,5 +1,14 @@
 // -*- mode: c++ -*-
 
+/*
+ * Nombre: Medidor.h
+ * Descripción: Adquisición de señales analógicas del sensor y cálculo de concentración de ozono.
+ * Copyright: código base docente; adaptación (c) 2026 Pedro Fernández
+ * Fecha: 2019 (código base); 16/10/2026 (adaptación Sprint 0)
+ * Autor: Código base docente (código base); Pedro Fernández (adaptación)
+ * Aportación: Adaptación de la adquisición ADC y cálculo de ozono usados en el proyecto.
+ */
+
 #ifndef MEDIDOR_H_INCLUIDO
 #define MEDIDOR_H_INCLUIDO
 
@@ -29,11 +38,19 @@ public:
   // .....................................................
   // constructor
   // .....................................................
+/*
+ * Medidor()
+ * Construye el objeto responsable de la adquisición de medidas.
+ */
   Medidor(  ) {
   } // ()
 
   // .....................................................
   // .....................................................
+/*
+ * iniciarMedidor()
+ * Configura la entrada analógica y la resolución/referencia del ADC.
+ */
   void iniciarMedidor() {
 	pinMode(PIN_VGAS, INPUT);
 
@@ -42,6 +59,10 @@ public:
   analogReference(AR_INTERNAL);
   } // ()
 
+/*
+ * leerVgasVoltios() --> vgas: R
+ * Obtiene el voltaje medio de Vgas a partir de varias lecturas ADC.
+ */
   float leerVgasVoltios(){
     uint32_t suma = 0;
 
@@ -56,6 +77,10 @@ public:
     return voltaje;
   }
 
+/*
+ * leerVrefVoltios() --> vref: R
+ * Obtiene el voltaje medio de referencia a partir de varias lecturas ADC.
+ */
   float leerVrefVoltios() {
 
     uint32_t suma = 0;
@@ -71,6 +96,10 @@ public:
 
   // .....................................................
   // .....................................................
+/*
+ * vgas: R, vref: R --> medirOzono() --> ozono: R
+ * Calcula la concentración de ozono a partir de Vgas, Vref y la sensibilidad configurada.
+ */
   float medirOzono(float vgas, float vref) {
 
     float concentracion =
@@ -81,6 +110,10 @@ public:
 
   // .....................................................
   // .....................................................
+/*
+ * medirTemperatura() --> temperatura: Z
+ * Conserva la operación de temperatura del código base; no se utiliza en el Sprint 0.
+ */
   int medirTemperatura() {
 	return -12; // qué frío !
   } // ()

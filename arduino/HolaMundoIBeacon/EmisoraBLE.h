@@ -1,5 +1,14 @@
 // -*- mode: c++ -*-
 
+/*
+ * Nombre: EmisoraBLE.h
+ * Descripción: Abstracción de la emisora Bluetooth Low Energy utilizada para anuncios iBeacon y servicios BLE.
+ * Copyright: código base docente; adaptación (c) 2026 Pedro Fernández
+ * Fecha: 2019 (código base); 16/10/2026 (adaptación Sprint 0)
+ * Autor: Jordi Bataller i Mascarell (código base); Pedro Fernández (adaptación)
+ * Aportación: Reutilización del código docente como infraestructura BLE del Sprint 0; sin alterar su responsabilidad original.
+ */
+
 // ----------------------------------------------------------
 // Jordi Bataller i Mascarell
 // 2019-07-07
@@ -38,6 +47,10 @@ public:
 
   // .........................................................
   // .........................................................
+/*
+ * nombre_emisora: Text, fabricante_id: N, tx_power: Z --> EmisoraBLE()
+ * Construye una emisora BLE con su nombre, fabricante y potencia de transmisión.
+ */
   EmisoraBLE( const char * nombreEmisora_, const uint16_t fabricanteID_,
 			  const int8_t txPower_ ) 
 	:
@@ -72,6 +85,10 @@ public:
 	
   // .........................................................
   // .........................................................
+/*
+ * encenderEmisora()
+ * Inicializa Bluefruit, configura el nombre anunciado y deja preparada la emisora.
+ */
   void encenderEmisora() {
 
     Bluefruit.begin();
@@ -100,6 +117,10 @@ public:
 
   // .........................................................
   // .........................................................
+/*
+ * detenerAnuncio()
+ * Detiene la publicidad BLE cuando existe un anuncio activo.
+ */
   void detenerAnuncio() {
 
 	if ( (*this).estaAnunciando() ) {
@@ -112,12 +133,20 @@ public:
   // .........................................................
   // estaAnunciando() -> Boleano
   // .........................................................
+/*
+ * estaAnunciando() --> anunciando: B
+ * Indica si la emisora mantiene un anuncio BLE activo.
+ */
   bool estaAnunciando() {
 	return Bluefruit.Advertising.isRunning();
   } // ()
 
   // .........................................................
   // .........................................................
+/*
+ * uuid: [N]_16, major: Z, minor: Z, rssi: Z --> emitirAnuncioIBeacon()
+ * Configura y comienza un anuncio iBeacon con los campos recibidos.
+ */
   void emitirAnuncioIBeacon( uint8_t * beaconUUID, int16_t major, int16_t minor, uint8_t rssi ) {
 
 	//
@@ -202,6 +231,10 @@ public:
 
 	const uint8_t tamanyoCarga = strlen( carga );
   */
+/*
+ * carga: Text, tamanyo: N --> emitirAnuncioIBeaconLibre()
+ * Publica una carga libre iBeacon con la longitud indicada.
+ */
   void emitirAnuncioIBeaconLibre( const char * carga, const uint8_t tamanyoCarga ) {
 
 	(*this).detenerAnuncio(); 
@@ -264,6 +297,10 @@ public:
 
   // .........................................................
   // .........................................................
+/*
+ * servicio: ServicioEnEmisora --> anyadirServicio() --> correcto: B
+ * Añade un servicio BLE a la publicidad de la emisora.
+ */
   bool anyadirServicio( ServicioEnEmisora & servicio ) {
 
 	Globales::elPuerto.escribir( " Bluefruit.Advertising.addService( servicio ); \n");
@@ -283,11 +320,19 @@ public:
   
   // .........................................................
   // .........................................................
+/*
+ * servicio: ServicioEnEmisora --> anyadirServicioConSusCaracteristicas() --> correcto: B
+ * Caso base que añade a la emisora un servicio con sus características ya asociadas.
+ */
   bool anyadirServicioConSusCaracteristicas( ServicioEnEmisora & servicio ) { 
 	return (*this).anyadirServicio( servicio );
   } // 
 
   // .........................................................
+/*
+ * servicio: ServicioEnEmisora, caracteristicas: [Caracteristica] --> anyadirServicioConSusCaracteristicas() --> correcto: B
+ * Asocia recursivamente las características recibidas al servicio antes de añadirlo.
+ */
   template <typename ... T>
   bool anyadirServicioConSusCaracteristicas( ServicioEnEmisora & servicio,
 											 ServicioEnEmisora::Caracteristica & caracteristica,
@@ -300,6 +345,10 @@ public:
   } // ()
 
   // .........................................................
+/*
+ * servicio: ServicioEnEmisora, caracteristicas: [Caracteristica] --> anyadirServicioConSusCaracteristicasYActivar() --> correcto: B
+ * Añade las características, registra el servicio y lo activa.
+ */
   template <typename ... T>
   bool anyadirServicioConSusCaracteristicasYActivar( ServicioEnEmisora & servicio,
 													 // ServicioEnEmisora::Caracteristica & caracteristica,
@@ -315,18 +364,30 @@ public:
 
   // .........................................................
   // .........................................................
+/*
+ * callback: Callback --> instalarCallbackConexionEstablecida()
+ * Instala el callback invocado al establecerse una conexión BLE.
+ */
   void instalarCallbackConexionEstablecida( CallbackConexionEstablecida cb ) {
 	Bluefruit.Periph.setConnectCallback( cb );
   } // ()
 
   // .........................................................
   // .........................................................
+/*
+ * callback: Callback --> instalarCallbackConexionTerminada()
+ * Instala el callback invocado al finalizar una conexión BLE.
+ */
   void instalarCallbackConexionTerminada( CallbackConexionTerminada cb ) {
 	Bluefruit.Periph.setDisconnectCallback( cb );
   } // ()
 
   // .........................................................
   // .........................................................
+/*
+ * identificador_conexion: N --> getConexion() --> conexion: BLEConnection
+ * Obtiene la conexión BLE asociada al identificador recibido.
+ */
   BLEConnection * getConexion( uint16_t connHandle ) {
 	return Bluefruit.Connection( connHandle );
   } // ()

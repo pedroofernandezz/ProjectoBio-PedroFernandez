@@ -1,5 +1,14 @@
 // -*-c++-*-
 
+/*
+ * Nombre: HolaMundoIBeacon.ino
+ * Descripción: Programa principal de la placa SparkFun para el Sprint 0 y emisión de la medición por BLE/iBeacon.
+ * Copyright: código base docente; adaptación (c) 2026 Pedro Fernández
+ * Fecha: 2019 (código base); 16/10/2026 (adaptación Sprint 0)
+ * Autor: Jordi Bataller i Mascarell (código base); Pedro Fernández (adaptación)
+ * Aportación: Integración del medidor/publicador y uso de la medida ficticia 12.34 ppm exigida por el test de funcionamiento.
+ */
+
 // --------------------------------------------------------------
 //
 // Jordi Bataller i Mascarell
@@ -53,6 +62,10 @@ namespace Globales {
 
 // --------------------------------------------------------------
 // --------------------------------------------------------------
+/*
+ * inicializarPlaquita()
+ * Punto de inicialización específico de la placa; en este Sprint 0 no requiere acciones adicionales.
+ */
 void inicializarPlaquita () {
 
   // de momento nada
@@ -62,6 +75,10 @@ void inicializarPlaquita () {
 // --------------------------------------------------------------
 // setup()
 // --------------------------------------------------------------
+/*
+ * setup()
+ * Inicializa puerto serie, emisora BLE y medidor antes de comenzar el ciclo principal.
+ */
 void setup() {
 
   Globales::elPuerto.esperarDisponible();
@@ -97,6 +114,10 @@ void setup() {
 
 // --------------------------------------------------------------
 // --------------------------------------------------------------
+/*
+ * lucecitas()
+ * Ejecuta una secuencia de encendido del LED de apoyo.
+ */
 inline void lucecitas() {
   using namespace Globales;
 
@@ -123,6 +144,10 @@ namespace Loop {
 // LOOP PRINCIPAL
 // --------------------------------------------------
 
+/*
+ * loop()
+ * Genera la medida ficticia del test, la codifica como ozono y ordena su publicación periódica por iBeacon.
+ */
 void loop() {
 
     using namespace Globales;
@@ -139,7 +164,7 @@ void loop() {
     float vref = elMedidor.leerVrefVoltios();
 
     // -----------------------------------------
-    // Calcular concentracion de ozono
+    // Medida ficticia exigida por el test de funcionamiento del Sprint 0
     // -----------------------------------------
 
     float valorOzono = 12.34f;

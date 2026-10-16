@@ -7,59 +7,43 @@ Representar la arquitectura completa necesaria para que una medición ficticia i
 ## Diagrama
 
 ```text
-┌─────────────────────────────┐
-│ Arduino / SparkFun          │
-│ Genera la medición          │
-│ y la emite como iBeacon     │
-└──────────────┬──────────────┘
-               │ BLE / iBeacon
-               ▼
-┌─────────────────────────────┐
-│ Android                     │
-│ Recibe y decodifica beacon  │
-└──────────────┬──────────────┘
-               │
-               ▼
-┌─────────────────────────────┐
-│ Lógica fake Android         │
-│ Proxy de la lógica remota   │
-└──────────────┬──────────────┘
-               │ POST /mediciones
-               ▼
-┌─────────────────────────────┐
-│ Servidor REST               │
-│ Traduce HTTP ↔ lógica       │
-└──────────────┬──────────────┘
-               │ registrarMedicion()
-               ▼
-┌─────────────────────────────┐
-│ Lógica del negocio real     │
-│ Valida y coordina           │
-└──────────────┬──────────────┘
-               │
-               ▼
-┌─────────────────────────────┐
-│ Base de datos               │
-│ Tabla MEDICION              │
-└──────────────┬──────────────┘
-               │
-               │ obtenerUltimaMedicion()
-               ▼
-┌─────────────────────────────┐
-│ Servidor REST               │
-└──────────────┬──────────────┘
-               │ GET /mediciones/ultima
-               ▼
-┌─────────────────────────────┐
-│ Lógica fake navegador       │
-└──────────────┬──────────────┘
-               │
-               ▼
-┌─────────────────────────────┐
-│ UX web                      │
-│ Valor + fecha/hora + botón  │
-│ "Actualizar medición"       │
-└─────────────────────────────┘
+ESCRITURA DE LA MEDICIÓN
+
+Arduino / SparkFun
+        │ BLE / iBeacon
+        ▼
+Android
+        │
+        ▼
+Lógica fake Android
+        │ POST /mediciones
+        ▼
+Servidor REST
+        │ registrarMedicion()
+        ▼
+Lógica del negocio real
+        │
+        ▼
+Base de datos / MEDICION
+
+
+LECTURA DE LA ÚLTIMA MEDICIÓN
+
+UX web
+        │
+        ▼
+Lógica fake navegador
+        │ GET /mediciones/ultima
+        ▼
+Servidor REST
+        │ obtenerUltimaMedicion()
+        ▼
+Lógica del negocio real
+        │
+        ▼
+Base de datos / MEDICION
+
+La respuesta recorre el camino inverso hasta la UX web.
 ```
 
 ## Responsabilidades

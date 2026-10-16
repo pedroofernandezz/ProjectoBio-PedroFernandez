@@ -1,5 +1,13 @@
 package com.example.sprintpedro;
 
+/*
+ * Nombre: Utilidades.java
+ * Descripción: Funciones auxiliares para conversiones de texto, UUID, bytes y números.
+ * Copyright: código base docente; adaptación (c) 2026 Pedro Fernández
+ * Fecha: 2019 (código base); 16/10/2026 (documentación Sprint 0)
+ * Autor: Jordi Bataller i Mascarell (código base); Pedro Fernández (documentación/adaptación)
+ * Aportación: reutilización de las conversiones necesarias para interpretar las tramas iBeacon.
+ */
 
 import java.math.BigInteger;
 import java.nio.ByteBuffer;
@@ -12,6 +20,10 @@ public class Utilidades {
 
     // -------------------------------------------------------------------------------
     // -------------------------------------------------------------------------------
+    /*
+     * texto: Text --> stringToBytes() --> bytes: [N]
+     * Convierte un texto en su secuencia de bytes.
+     */
     public static byte[] stringToBytes ( String texto ) {
         return texto.getBytes();
         // byte[] b = string.getBytes(StandardCharsets.UTF_8); // Ja
@@ -19,6 +31,10 @@ public class Utilidades {
 
     // -------------------------------------------------------------------------------
     // -------------------------------------------------------------------------------
+    /*
+     * uuid: Text --> stringToUUID() --> uuid: UUID
+     * Convierte una representación textual de UUID al tipo UUID.
+     */
     public static UUID stringToUUID( String uuid ) {
         if ( uuid.length() != 16 ) {
             throw new Error( "stringUUID: string no tiene 16 caracteres ");
@@ -38,18 +54,30 @@ public class Utilidades {
 
     // -------------------------------------------------------------------------------
     // -------------------------------------------------------------------------------
+    /*
+     * uuid: UUID --> uuidToString() --> texto: Text
+     * Convierte un UUID a su representación textual.
+     */
     public static String uuidToString ( UUID uuid ) {
         return bytesToString( dosLongToBytes( uuid.getMostSignificantBits(), uuid.getLeastSignificantBits() ) );
     } // ()
 
     // -------------------------------------------------------------------------------
     // -------------------------------------------------------------------------------
+    /*
+     * uuid: UUID --> uuidToHexString() --> texto_hex: Text
+     * Convierte un UUID a una representación hexadecimal basada en sus bytes.
+     */
     public static String uuidToHexString ( UUID uuid ) {
         return bytesToHexString( dosLongToBytes( uuid.getMostSignificantBits(), uuid.getLeastSignificantBits() ) );
     } // ()
 
     // -------------------------------------------------------------------------------
     // -------------------------------------------------------------------------------
+    /*
+     * bytes: [N] --> bytesToString() --> texto: Text
+     * Interpreta una secuencia de bytes como texto.
+     */
     public static String bytesToString( byte[] bytes ) {
         if (bytes == null ) {
             return "";
@@ -64,6 +92,10 @@ public class Utilidades {
 
     // -------------------------------------------------------------------------------
     // -------------------------------------------------------------------------------
+    /*
+     * mas_significativos: Z, menos_significativos: Z --> dosLongToBytes() --> bytes: [N]_16
+     * Combina las dos mitades de un UUID en un array de 16 bytes.
+     */
     public static byte[] dosLongToBytes( long masSignificativos, long menosSignificativos ) {
         ByteBuffer buffer = ByteBuffer.allocate( 2 * Long.BYTES );
         buffer.putLong( masSignificativos );
@@ -73,18 +105,30 @@ public class Utilidades {
 
     // -------------------------------------------------------------------------------
     // -------------------------------------------------------------------------------
+    /*
+     * bytes: [N] --> bytesToInt() --> valor: Z
+     * Convierte una secuencia corta de bytes a entero.
+     */
     public static int bytesToInt( byte[] bytes ) {
         return new BigInteger(bytes).intValue();
     }
 
     // -------------------------------------------------------------------------------
     // -------------------------------------------------------------------------------
+    /*
+     * bytes: [N] --> bytesToLong() --> valor: Z
+     * Convierte una secuencia de bytes a entero largo.
+     */
     public static long bytesToLong( byte[] bytes ) {
         return new BigInteger(bytes).longValue();
     }
 
     // -------------------------------------------------------------------------------
     // -------------------------------------------------------------------------------
+    /*
+     * bytes: [N] --> bytesToIntOK() --> valor: Z
+     * Convierte bytes a entero mediante BigInteger conservando el comportamiento del código base.
+     */
     public static int bytesToIntOK( byte[] bytes ) {
         if (bytes == null ) {
             return 0;
@@ -123,6 +167,10 @@ public class Utilidades {
 
     // -------------------------------------------------------------------------------
     // -------------------------------------------------------------------------------
+    /*
+     * bytes: [N] --> bytesToHexString() --> hexadecimal: Text
+     * Convierte una secuencia de bytes a texto hexadecimal legible.
+     */
     public static String bytesToHexString( byte[] bytes ) {
 
         if (bytes == null ) {

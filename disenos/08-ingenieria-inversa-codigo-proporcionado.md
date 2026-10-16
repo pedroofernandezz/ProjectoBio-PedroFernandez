@@ -33,6 +33,8 @@ loop()
 
 La medición de ozono se codifica en un anuncio iBeacon.
 
+**Adaptación de la versión de evaluación:** el código proporcionado conserva `Medidor.medirOzono()`, pero el test obligatorio del Sprint 0 introduce directamente `12.34f` en `loop()` como medida ficticia y publica ese valor. Las lecturas `Vgas` y `Vref` se mantienen únicamente como trazas del código de adquisición.
+
 ---
 
 ## 1.2 Clase `Medidor`
