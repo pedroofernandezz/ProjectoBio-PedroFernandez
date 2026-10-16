@@ -16,9 +16,11 @@ La medida ficticia utilizada en la versión de evaluación es **12.34 ppm**.
 
 - `arduino/`: código para la placa SparkFun Pro nRF52840 Mini, medición y emisión BLE/iBeacon.
 - `android/`: aplicación Android en Java que recibe y decodifica la trama BLE y utiliza la lógica fake para comunicarse con el servidor.
-- `backend/`: base de datos SQLite, lógica real de negocio, API REST y servidor Node.js/Express.
-- `web/`: página web, lógica fake del navegador y pruebas de la interfaz.
-- `disenos/`: diseños de arquitectura, base de datos, lógica de negocio, REST, UX, lógicas fake e ingeniería inversa.
+- `backend/`: arranque Node.js/Express, esquema y archivo SQLite, tests y rutas de compatibilidad con las implementaciones de `src/`.
+- `web/`: HTML/CSS, pruebas y módulos de entrada compatibles con la lógica fake y GUI de `src/`.
+- `doc/`: especificaciones formales separadas de comunicación, lógica real, base de datos, lógica fake del frontend y GUI para el agente revisor v2.
+- `src/`: implementaciones separadas por responsabilidad (`communication/`, `business_logic/`, `database/`, `frontend_business_logic/` y `gui/`).
+- `disenos/`: diseños originales de arquitectura, base de datos, lógica de negocio, REST, UX, lógicas fake e ingeniería inversa.
 - `prompts/`: prompts y especificaciones utilizados durante el desarrollo con IA.
 
 ## Ramas
@@ -179,6 +181,10 @@ Incluye pruebas del decodificador de ozono y de la lógica fake Android.
 ## Diseños y uso de IA
 
 Los diseños del Sprint 0 están en `disenos/` y los prompts utilizados durante el desarrollo con IA están documentados en `prompts/`.
+
+## Revisión de arquitectura
+
+Los diseños exigidos por el agente revisor v2 se encuentran en `doc/` y las implementaciones en `src/`. Los puntos de entrada y comandos de ejecución originales se conservan. La lógica real del negocio no depende de HTTP y la GUI web no contiene peticiones `fetch()`.
 
 ## Autor
 
